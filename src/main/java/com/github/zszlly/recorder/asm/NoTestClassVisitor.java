@@ -21,19 +21,20 @@ public class NoTestClassVisitor extends ClassVisitor {
 
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        for (String interf : interfaces) {
-            if (NoTestMark.INTERNAL_NAME.equals(interf)) {
-                isNoTest = true;
-                break;
-            }
-        }
-        if (isNoTest) {
-            super.visit(version, access, name, signature, superName, interfaces);
-            return;
-        }
-        String[] newInterfaces = Arrays.copyOf(interfaces, interfaces.length + 1);
-        newInterfaces[interfaces.length] = NoTestMark.INTERNAL_NAME;
-        super.visit(version, access, name, signature, superName, newInterfaces);
+//        for (String interf : interfaces) {
+//            if (NoTestMark.INTERNAL_NAME.equals(interf)) {
+//                isNoTest = true;
+//                break;
+//            }
+//        }
+//        if (isNoTest) {
+//            super.visit(version, access, name, signature, superName, interfaces);
+//            return;
+//        }
+//        String[] newInterfaces = Arrays.copyOf(interfaces, interfaces.length + 1);
+//        newInterfaces[interfaces.length] = NoTestMark.INTERNAL_NAME;
+//        super.visit(version, access, name, signature, superName, newInterfaces);
+        super.visit(version, access, name, signature, superName, interfaces);
         classInternalName = name;
     }
 

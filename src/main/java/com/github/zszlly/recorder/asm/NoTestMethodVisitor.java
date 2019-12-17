@@ -219,7 +219,7 @@ public class NoTestMethodVisitor extends LocalVariablesSorter {
         mv.visitLdcInsn(methodDescription.getOwner().replace('/', '.'));
         // put methodName as argument for methodHolder
         mv.visitLdcInsn(methodDescription.getName());
-        // alloc memory of linkedlist of argument argumentTypes for methodHolder
+        // alloc memory of linkedlist holding argument argumentTypes for methodHolder
         mv.visitTypeInsn(NEW, "java/util/LinkedList");
         mv.visitInsn(DUP);
         mv.visitMethodInsn(INVOKESPECIAL, "java/util/LinkedList", "<init>", "()V", false);

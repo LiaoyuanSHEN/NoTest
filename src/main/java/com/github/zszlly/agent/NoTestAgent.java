@@ -1,6 +1,7 @@
 package com.github.zszlly.agent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.zszlly.recorder.asm.ASMCaseSaver;
 import com.github.zszlly.recorder.asm.NoTestClassVisitor;
 import com.github.zszlly.util.ClassUtils;
 import com.github.zszlly.util.SneakyThrow;
@@ -9,8 +10,10 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
@@ -21,14 +24,15 @@ import static org.objectweb.asm.ClassReader.EXPAND_FRAMES;
 public class NoTestAgent extends ClassLoader {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final String NO_TEST_RECORD_METHOD_JSON = "/tmp/noTestRecordMethod.json";
-    private static Map<Class<?>, Map<String, Set<String>>> NO_TEST_RECORD_METHOD = new HashMap();
+    private static Map<Class<?>, Map<String, Set<String>>> NO_TEST_RECORD_METHOD = new HashMap<>();
 
     // pattern [method full name][(argument type, split with ';')][return type]
     // e.g. com.github.zszlly.agent.NoTestAgent.example(int;java.lang.Object)java.lang.Object
     @SuppressWarnings("unchecked")
-    public static void agentmain(String agentArgs, Instrumentation inst) throws ClassNotFoundException, UnmodifiableClassException, InterruptedException, IOException {
-        ((List<String>) MAPPER.readValue(new FileInputStream(NO_TEST_RECORD_METHOD_JSON), List.class))
+    public static void agentmain(String agentArgs, Instrumentation inst) throws IOException {
+        String[] args = agentArgs.split(";");
+        ASMCaseSaver.setStorageFilePath(args[1]);
+        ((List<String>) MAPPER.readValue(new FileInputStream(args[0]), List.class))
                 .forEach(str -> {
                     int splitPoint = str.indexOf("(");
                     String classNameAndMethodName = str.substring(0, splitPoint);
@@ -50,6 +54,7 @@ public class NoTestAgent extends ClassLoader {
                         NoTestClassVisitor pt = new NoTestClassVisitor(Opcodes.ASM5, cw, methods);
                         cr.accept(pt, EXPAND_FRAMES);
                         inst.redefineClasses(new ClassDefinition(clazz, cw.toByteArray()));
+                        System.out.println("redefine class: " + clazz.getName());
                     } catch (IOException | ClassNotFoundException | UnmodifiableClassException e) {
                         SneakyThrow.sneakyThrow(e);
                     }

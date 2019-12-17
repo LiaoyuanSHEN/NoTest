@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An instance proxy, will record this invocation and save it in Case.
+ * An instance proxy, will record this invocation and save it as Case.
  */
 public class NoTestInstanceProxy implements MethodInterceptor {
 
