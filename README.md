@@ -8,7 +8,7 @@ Its basic idea is to action method-level input/output as test vectors by running
 
 run gradle task `shadowJar`, then the output jar will be placed at `<project folder>/build/libs/no-test.jar`
 
-## Usage
+## Demo Usage
 
 ### Only support linux & macOS
 
@@ -27,7 +27,7 @@ run gradle task `shadowJar`, then the output jar will be placed at `<project fol
 
 2. build the project as build section described.
 
-3. copy the json properties file and built jar file "\<project folder\>/build/libs/no-test.jar" into the host where your program running at.
+3. copy the json properties file and built jar file `<project folder>/build/libs/no-test.jar` into the host where the demo program will run at.
 
 4. run demo program in first terminal at the host like:
 
