@@ -19,10 +19,10 @@ run gradle task `shadowJar`, then the output jar will be placed at `<project fol
     Here is an example:
     
         [
-          "Lcom/github/zszlly/DummyMain;.add(II)I",
-          "Lcom/github/zszlly/DummyMain;.addB(ILcom/github/zszlly/DummyMain$GetB;)I",
-          "Lcom/github/zszlly/DummyMain;.addArray([Ljava/lang/Integer;)I",
-          "Lcom/github/zszlly/DummyMain;.addAAndB(Lcom/github/zszlly/DummyMain$GetB;)I"
+            "Lcom/github/zszlly/Tester;.add(II)I",
+            "Lcom/github/zszlly/Tester;.addB(ILcom/github/zszlly/Tester$GetB;)I",
+            "Lcom/github/zszlly/Tester;.addArray([Ljava/lang/Integer;)I",
+            "Lcom/github/zszlly/Tester;.addAAndB(Lcom/github/zszlly/Tester$GetB;)I"
         ]
 
 2. build the project as build section described.
